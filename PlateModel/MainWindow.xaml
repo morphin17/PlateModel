@@ -5,8 +5,358 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlateModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="650" Width="1210" MinHeight="650" MaxHeight="650" MinWidth="1210" MaxWidth="1210">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="400" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+
+        <!--Меню-->
+        <Menu Background="White" Width="1210" BorderThickness="0,0,0,1" BorderBrush="#EDEEF0" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="4" Margin="0,0,-8,0">
+            <MenuItem>
+                <MenuItem.Header>
+                    <TextBlock>Файл</TextBlock>
+                </MenuItem.Header>
+                <MenuItem Header="Выход"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Сценарии">
+                <MenuItem Header="Сценарий №1. Остывание золотой пластины." Click="MenuItem_Test1"/>
+                <MenuItem Header="Сценарий №2. Нагревание кремниевой пластины."/>
+            </MenuItem>
+        </Menu>
+
+        <WpfPlot Name="WpfPlotPlate1" Grid.Column="1" Grid.Row="2" />
+        <WpfPlot Name="WpfPlotPlate2" Grid.Column="2" Grid.Row="2" />
+
+        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"  >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="3">
+            <Button
+                Name="Play"
+                Content="▶"
+                Margin="5"
+            />
+            <Button
+                Name="Next"
+                Content="→"
+                Margin="5"
+                Click="next_Click"
+            />
+            </StackPanel>
+
+            <TextBlock
+                Name="CurrentModelTime1"
+                Grid.Row="1"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                TextAlignment="Center"
+                TextWrapping="Wrap"
+                Text="Текущее время:
+                0 сек."    
+                />
+            
+            <TextBlock
+                Name="CurrentModelTime2"
+                Grid.Row="1"
+                Grid.Column="5"
+                VerticalAlignment="Center"
+                TextAlignment="Center"
+                TextWrapping="Wrap"
+                Text="Текущее время:
+                0 сек."    
+                />
+
+
+        </Grid>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="5,0,5,0">
+            <Label FontWeight="Bold" FontSize="10">Вещество:</Label>
+            <DockPanel  VerticalAlignment="Center" Margin="10,0,10,0">
+                <ListBox Name="PlateSubstance1">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    
+                    <ListBoxItem Height="80" Margin="3">
+                        <StackPanel>
+                            <Image Source="pack://application:,,,/images/au.png" Width="60" Height="60" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                >Золото</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                    
+                    <ListBoxItem Height="80" Margin="3">
+                        <StackPanel>
+                            <Image Source="pack://application:,,,/images/ag.png" Width="60" Height="60" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                >Серебро</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                    
+                    <ListBoxItem Height="80" Margin="3">
+                        <StackPanel>
+                            <Image Source="pack://application:,,,/images/cu.png" Width="60" Height="60" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                >Медь</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                    
+                    <ListBoxItem Height="80" Margin="3">
+                        <StackPanel>
+                            <Image Source="pack://application:,,,/images/si.png" Width="60" Height="60" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                >Кремний</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+            </DockPanel>
+        </StackPanel>
         
+        <StackPanel Grid.Column="2" Grid.Row="1" Margin="5,0,5,0">
+            <Label FontWeight="Bold" FontSize="10">Вещество:</Label>
+            <DockPanel  VerticalAlignment="Center" Margin="10,0,10,0">
+                <ListBox Name="PlateSubstance2">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    
+                    <ListBoxItem Height="80" Margin="3">
+                        <StackPanel>
+                            <Image Source="pack://application:,,,/images/au.png" Width="60" Height="60" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                >Золото</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                    
+                    <ListBoxItem Height="80" Margin="3">
+                        <StackPanel>
+                            <Image Source="pack://application:,,,/images/ag.png" Width="60" Height="60" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                >Серебро</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                    
+                    <ListBoxItem Height="80" Margin="3">
+                        <StackPanel>
+                            <Image Source="pack://application:,,,/images/cu.png" Width="60" Height="60" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                >Медь</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                    
+                    <ListBoxItem Height="80" Margin="3">
+                        <StackPanel>
+                            <Image Source="pack://application:,,,/images/si.png" Width="60" Height="60" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                >Кремний</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+            </DockPanel>
+        </StackPanel>
+
+
+        <StackPanel Grid.Column="0" Grid.Row="1" Grid.RowSpan="4" Margin="5,0,5,0">
+            <Label FontWeight="Bold" FontSize="10">Ширина пластины:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10, 0, 10,0">
+                <TextBox Text="{Binding ElementName=PlateWidth1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateWidth1" Maximum="20" Minimum="5" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Детализация по ширине:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
+                <TextBox Text="{Binding ElementName=PlateWidthPointsCount1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateWidthPointsCount1"  Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+            
+            <Label FontWeight="Bold" FontSize="10">Длина пластины:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10, 0, 10,0">
+                <TextBox Text="{Binding ElementName=PlateHeight1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateHeight1" Maximum="20" Minimum="5" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Детализация по длине:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
+                <TextBox Text="{Binding ElementName=PlateHeightPointsCount1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateHeightPointsCount1"  Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+
+            <Label FontWeight="Bold" FontSize="10">Детализация по времени:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox Text="{Binding ElementName=PlateTimeStep1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateTimeStep1"  Maximum="1000" Minimum="0.5" TickPlacement="BottomRight" TickFrequency="0.5" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Функция нагрева:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox
+                    Name="PlateFunctionF1"
+                    VerticalAlignment="Center"
+                    Padding="3"
+                    Grid.Column="1" Grid.Row="0"
+                    ToolTip="Функция нагрева"
+                />
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Начальное состояние пластины:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox
+                    Name="PlateFunctionPhi1"
+                    VerticalAlignment="Center"
+                    Padding="3"
+                    Grid.Column="1" Grid.Row="1"
+                    ToolTip="Состояние пластины в нулевой момент времени"
+                />
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Состояние пластины на краях:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox
+                    Name="PlateFunctionMu1"
+                    VerticalAlignment="Center"
+                    Padding="3"
+                    ToolTip="Состояние пластины на краях"
+                />
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Аналитическое решение:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox
+                    Name="PlateFunctionU1"
+                    VerticalAlignment="Center"
+                    Padding="3"
+                    ToolTip="Аналитическое решение"
+                />
+            </DockPanel>
+
+            <Label FontWeight="Bold" FontSize="10">Нижняя граница тепловизора:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox Text="{Binding ElementName=BottomBorderTemp1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="BottomBorderTemp1"  Maximum="100" Minimum="-100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+
+            <Label FontWeight="Bold" FontSize="10">Верхняя граница тепловизора:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox Text="{Binding ElementName=TopBorderTemp1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="TopBorderTemp1"  Maximum="100" Minimum="-100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="3" Grid.Row="1" Grid.RowSpan="4" Margin="5,0,5,0">
+            <Label FontWeight="Bold" FontSize="10">Ширина пластины:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10, 0, 10,0">
+                <TextBox Text="{Binding ElementName=PlateWidth2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateWidth2" Maximum="20" Minimum="5" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Детализация по ширине:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
+                <TextBox Text="{Binding ElementName=PlateWidthPointsCount2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateWidthPointsCount2"  Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+            
+            <Label FontWeight="Bold" FontSize="10">Длина пластины:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10, 0, 10,0">
+                <TextBox Text="{Binding ElementName=PlateHeight2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateHeight2" Maximum="20" Minimum="5" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Детализация по длине:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
+                <TextBox Text="{Binding ElementName=PlateHeightPointsCount2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateHeightPointsCount2"  Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Детализация по времени:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox Text="{Binding ElementName=PlateTimeStep2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="PlateTimeStep2"  Maximum="1000" Minimum="0.5" TickPlacement="BottomRight" TickFrequency="0.5" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+
+            <Label FontWeight="Bold" FontSize="10">Функция нагрева:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox
+                    Name="PlateFunctionF2"
+                    VerticalAlignment="Center"
+                    Padding="3"
+                    Grid.Column="1" Grid.Row="0"
+                    ToolTip="Функция нагрева"
+                />
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Начальное состояние пластины:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox
+                    Name="PlateFunctionPhi2"
+                    VerticalAlignment="Center"
+                    Padding="3"
+                    Grid.Column="1" Grid.Row="1"
+                    ToolTip="Состояние пластины в нулевой момент времени"
+                />
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Состояние пластины на краях:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox
+                    Name="PlateFunctionMu2"
+                    VerticalAlignment="Center"
+                    Padding="3"
+                    ToolTip="Состояние пластины на краях"
+                />
+            </DockPanel>
+            <Label FontWeight="Bold" FontSize="10">Аналитическое решение:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox
+                    Name="PlateFunctionU2"
+                    VerticalAlignment="Center"
+                    Padding="3"
+                    ToolTip="Аналитическое решение"
+                />
+            </DockPanel>
+            
+            <Label FontWeight="Bold" FontSize="10">Нижняя граница тепловизора:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox Text="{Binding ElementName=BottomBorderTemp2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="BottomBorderTemp2"  Maximum="100" Minimum="-100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+
+            <Label FontWeight="Bold" FontSize="10">Верхняя граница тепловизора:</Label>
+            <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
+                <TextBox Text="{Binding ElementName=TopBorderTemp2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
+                <Slider Name="TopBorderTemp2"  Maximum="100" Minimum="-100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+
+        </StackPanel>
+
     </Grid>
 </Window>
