@@ -206,7 +206,7 @@
             <Label FontWeight="Bold" FontSize="10">Детализация по ширине:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
                 <TextBox Text="{Binding ElementName=PlateWidthPointsCount1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateWidthPointsCount1"  Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateWidthPointsCount1"  Maximum="100" Minimum="2" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
             
             <Label FontWeight="Bold" FontSize="10">Длина пластины:</Label>
@@ -217,13 +217,13 @@
             <Label FontWeight="Bold" FontSize="10">Детализация по длине:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
                 <TextBox Text="{Binding ElementName=PlateHeightPointsCount1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateHeightPointsCount1"  Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateHeightPointsCount1"  Maximum="100" Minimum="2" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
 
             <Label FontWeight="Bold" FontSize="10">Детализация по времени:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
                 <TextBox Text="{Binding ElementName=PlateTimeStep1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateTimeStep1"  Maximum="1000" Minimum="0.5" TickPlacement="BottomRight" TickFrequency="0.5" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateTimeStep1"  Maximum="1000" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Функция нагрева:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
@@ -286,7 +286,7 @@
             <Label FontWeight="Bold" FontSize="10">Детализация по ширине:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
                 <TextBox Text="{Binding ElementName=PlateWidthPointsCount2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateWidthPointsCount2"  Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateWidthPointsCount2"  Maximum="100" Minimum="2" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
             
             <Label FontWeight="Bold" FontSize="10">Длина пластины:</Label>
@@ -297,12 +297,12 @@
             <Label FontWeight="Bold" FontSize="10">Детализация по длине:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
                 <TextBox Text="{Binding ElementName=PlateHeightPointsCount2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateHeightPointsCount2"  Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateHeightPointsCount2"  Maximum="100" Minimum="2" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Детализация по времени:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
                 <TextBox Text="{Binding ElementName=PlateTimeStep2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateTimeStep2"  Maximum="1000" Minimum="0.5" TickPlacement="BottomRight" TickFrequency="0.5" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateTimeStep2"  Maximum="1000" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
 
             <Label FontWeight="Bold" FontSize="10">Функция нагрева:</Label>

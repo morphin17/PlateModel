@@ -22,6 +22,7 @@ namespace PlateModel
         public double sigma2;
         private double gamma1;
         private double gamma2;
+        private double ro;
         public double maxR = 0;
 
 
@@ -59,11 +60,12 @@ namespace PlateModel
             this.h1 = h1;
             this.h2 = h2;
             this.tau = tau;
+            this.ro = ro;
 
             this.sigma1 = 0.5 * (ro - h1 * h1 / (6 * tau));
             this.sigma2 = 0.5 * (ro - h2 * h2 / (6 * tau));
-            this.gamma1 = tau / (h1 * h1);
-            this.gamma2 = tau / (h2 * h2);
+            this.gamma1 = ro*tau / (h1 * h1);
+            this.gamma2 = ro*tau / ( h2 * h2);
 
             this.mu = mu;
             this.phi = phi;
@@ -150,12 +152,13 @@ namespace PlateModel
         private double F(double[,] U, int i, int j)
         {
 
-            return (1 - sigma1) * (U[i - 1, j] - 2 * U[i, j] + U[i + 1, j]) / (h1 * h1) +
-                (1 - sigma2) * (U[i, j - 1] - 2 * U[i, j] + U[i, j + 1]) / (h2 * h2) +
-                (1 - sigma1) * (1 - sigma2) * tau *
-                (U[i - 1, j - 1] - 2 * U[i - 1, j] + U[i - 1, j + 1] - 2 * U[i, j - 1] + 4 * U[i, j] - 2 * U[i, j + 1] + U[i + 1, j - 1] - 2 * U[i + 1, j] + U[i + 1, j + 1]) /
-                ((h1 * h1) * (h2 * h2)) +
-                ((double)1 / 12) * (FF[i - 1, j] - 4 * FF[i, j] + FF[i + 1, j] + FF[i, j - 1] + FF[i, j + 1]) + FF[i, j];
+            return (ro - sigma1) * (U[i - 1, j] - 2 * U[i, j] + U[i + 1, j]) / (h1 * h1) +
+                (ro - sigma2) * (U[i, j - 1] - 2 * U[i, j] + U[i, j + 1]) / (h2 * h2);
+
+                //(ro - sigma1) * (ro - sigma2) * tau *
+                //(U[i - 1, j - 1] - 2 * U[i - 1, j] + U[i - 1, j + 1] - 2 * U[i, j - 1] + 4 * U[i, j] - 2 * U[i, j + 1] + U[i + 1, j - 1] - 2 * U[i + 1, j] + U[i + 1, j + 1]) /
+                //((h1 * h1) * (h2 * h2)) +
+                //((double)1 / 12) * (FF[i - 1, j] - 4 * FF[i, j] + FF[i + 1, j] + FF[i, j - 1] + FF[i, j + 1]) + FF[i, j];
         }
 
         /// <summary>
@@ -176,12 +179,12 @@ namespace PlateModel
             for (int j = 1; j < U.GetLength(1) - 1; j++)
             {
                 alpha[1] = 0;
-                beta[1] = U[0, j];
+                beta[1] = N[0, j];
 
                 for (int i = 1; i < U.GetLength(0) - 1; i++)
                 {
-                    alpha[i + 1] = sigma1 * gamma1 / (1 + 2 * sigma1 * gamma1 - alpha[i] * sigma1 * gamma1);
-                    beta[i + 1] = (tau * F(N, i, j) + N[i, j] + sigma1 * gamma1 * beta[i]) / (1 + 2 * sigma1 * gamma1 - alpha[i] * sigma1 * gamma1);
+                    alpha[i + 1] = gamma1 / (1 + 2 * gamma1 - alpha[i] * gamma1);
+                    beta[i + 1] = (N[i, j] + tau * FF[i,j] + gamma1 * beta[i]) / (1 + 2 * gamma1 - alpha[i] * gamma1);
                 }
 
                 for (int i = U.GetLength(0) - 2; i > 0; i--)
@@ -198,12 +201,12 @@ namespace PlateModel
             for (int i = 1; i < U.GetLength(0) - 1; i++)
             {
                 alpha[1] = 0;
-                beta[1] = U[i, 0];
+                beta[1] = N[i, 0];
 
                 for (int j = 1; j < U.GetLength(1) - 1; j++)
                 {
-                    alpha[j + 1] = sigma2 * gamma2 / (1 + 2 * sigma2 * gamma2 - alpha[j] * sigma2 * gamma2);
-                    beta[j + 1] = (N[i, j] + sigma2 * gamma2 * beta[j]) / (1 + 2 * sigma2 * gamma2 - alpha[j] * sigma2 * gamma2);
+                    alpha[j + 1] = gamma2 / (1 + 2 * gamma2 - alpha[j] * gamma2);
+                    beta[j + 1] = (N[i, j] + tau * FF[i, j] + gamma2 * beta[j]) / (1 + 2 * gamma2 - alpha[j] * gamma2);
                 }
 
                 for (int j = U.GetLength(1) - 2; j > 0; j--)

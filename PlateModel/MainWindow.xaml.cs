@@ -75,10 +75,10 @@ namespace PlateModel
             PlateFunctionPhi1.Text = "Sin(pi*x/5)*Sin(pi*y/5)";
             PlateFunctionMu1.Text = "0";
             PlateWidth1.Value = 5;
-            PlateWidthPointsCount1.Value = 20;
+            PlateWidthPointsCount1.Value = 30;
             PlateHeight1.Value = 5;
-            PlateHeightPointsCount1.Value = 20;
-            PlateTimeStep1.Value = 500;
+            PlateHeightPointsCount1.Value = 30;
+            PlateTimeStep1.Value = 60;
             PlateFunctionU1.Text = "Sin(pi*x/5)*Sin(pi*y/5)*Pow(e, -0.000127*(pi*pi/(5*5) + pi*pi/(5*5))*t)";
             PlateSubstance1.SelectedIndex = 0;
             BottomBorderTemp1.Value = 0;
@@ -88,10 +88,10 @@ namespace PlateModel
             PlateFunctionPhi2.Text = "Sin(pi*x/5)*Sin(pi*y/5)";
             PlateFunctionMu2.Text = "0";
             PlateWidth2.Value = 5;
-            PlateWidthPointsCount2.Value = 20;
+            PlateWidthPointsCount2.Value = 30;
             PlateHeight2.Value = 5;
-            PlateHeightPointsCount2.Value = 20;
-            PlateTimeStep2.Value = 500;
+            PlateHeightPointsCount2.Value = 30;
+            PlateTimeStep2.Value = 60;
             PlateSubstance2.SelectedIndex = 0;
             BottomBorderTemp2.Value = 0;
             TopBorderTemp2.Value = 1;
@@ -111,7 +111,7 @@ namespace PlateModel
             PlateWidthPointsCount1.Value = 20;
             PlateHeight1.Value = 10;
             PlateHeightPointsCount1.Value = 20;
-            PlateTimeStep1.Value = 0.5;
+            PlateTimeStep1.Value = 10;
             PlateFunctionF1.Text = "0";
             PlateFunctionPhi1.Text = "0";
             PlateFunctionMu1.Text = "0";
@@ -120,6 +120,22 @@ namespace PlateModel
             BottomBorderTemp1.Value = 0;
             TopBorderTemp1.Value = 10;
         }
+        private void init_PlateOptions2()
+        {
+            PlateWidth2.Value = 10;
+            PlateWidthPointsCount2.Value = 20;
+            PlateHeight2.Value = 10;
+            PlateHeightPointsCount2.Value = 20;
+            PlateTimeStep2.Value = 10;
+            PlateFunctionF2.Text = "0";
+            PlateFunctionPhi2.Text = "0";
+            PlateFunctionMu2.Text = "0";
+            PlateFunctionU2.Text = "";
+            PlateSubstance2.SelectedIndex = 0;
+            BottomBorderTemp2.Value = 0;
+            TopBorderTemp2.Value = 10;
+        }
+
 
         private void init_Expr1()
         {
@@ -140,22 +156,6 @@ namespace PlateModel
             {
                 exprU2 = new NCalc.Expression(PlateFunctionU2.Text);
             }
-        }
-
-        private void init_PlateOptions2()
-        {
-            PlateWidth2.Value = 10;
-            PlateWidthPointsCount2.Value = 20;
-            PlateHeight2.Value = 10;
-            PlateHeightPointsCount2.Value = 20;
-            PlateTimeStep2.Value = 0.5;
-            PlateFunctionF2.Text = "0";
-            PlateFunctionPhi2.Text = "0";
-            PlateFunctionMu2.Text = "0";
-            PlateFunctionU2.Text = "";
-            PlateSubstance2.SelectedIndex = 0;
-            BottomBorderTemp2.Value = 0;
-            TopBorderTemp2.Value = 10;
         }
 
 
@@ -281,21 +281,23 @@ namespace PlateModel
         {
             try
             {
-                if (PlateFunctionU1.Text == "") { 
-                    p1.nextU();
-                }
-                else
-                {
-                    p1.nextSolution();
-                }
+                //for (int i = 0; i < (int) (PlateTimeStep1.Value / 0.01); i++)
+                    if (PlateFunctionU1.Text == "") { 
+                            p1.nextU();
+                    }
+                    else
+                    {
+                        p1.nextSolution();
+                    }
 
-                if (PlateFunctionU2.Text == "") { 
-                    p2.nextU();
-                }
-                else
-                {
-                    p2.nextSolution();
-                }
+                //for (int i = 0; i < (int) (PlateTimeStep2.Value / 0.01); i++)
+                    if (PlateFunctionU2.Text == "") { 
+                            p2.nextU();
+                    }
+                    else
+                    {
+                        p2.nextSolution();
+                    }
             }
             catch
             {
