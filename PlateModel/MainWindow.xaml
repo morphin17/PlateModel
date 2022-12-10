@@ -29,8 +29,9 @@
                 <MenuItem Header="Выход"></MenuItem>
             </MenuItem>
             <MenuItem Header="Сценарии">
-                <MenuItem Header="Сценарий №1. Остывание золотой пластины." Click="MenuItem_Test1"/>
-                <MenuItem Header="Сценарий №2. Нагревание кремниевой пластины."/>
+                <MenuItem Header="Сценарий №1. Остывание золотой пластины 25 см^2." Click="MenuItem_Test1"/>
+                <MenuItem Header="Сценарий №2. Остывание золотой пластины 25 м^2." Click="MenuItem_Test2"/>
+                <MenuItem Header="Сценарий №3. Нагревание кремниевой пластины." Click="MenuItem_Test3"/>
             </MenuItem>
         </Menu>
 
@@ -56,6 +57,7 @@
                 Name="Play"
                 Content="▶"
                 Margin="5"
+                Click="play_Click"
             />
             <Button
                 Name="Next"
@@ -93,7 +95,7 @@
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="5,0,5,0">
             <Label FontWeight="Bold" FontSize="10">Вещество:</Label>
             <DockPanel  VerticalAlignment="Center" Margin="10,0,10,0">
-                <ListBox Name="PlateSubstance1">
+                <ListBox Name="PlateSubstance1" SelectionChanged="PlateSubstance1_SelectionChanged">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -146,7 +148,7 @@
         <StackPanel Grid.Column="2" Grid.Row="1" Margin="5,0,5,0">
             <Label FontWeight="Bold" FontSize="10">Вещество:</Label>
             <DockPanel  VerticalAlignment="Center" Margin="10,0,10,0">
-                <ListBox Name="PlateSubstance2">
+                <ListBox Name="PlateSubstance2" SelectionChanged="PlateSubstance2_SelectionChanged">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -201,29 +203,29 @@
             <Label FontWeight="Bold" FontSize="10">Ширина пластины:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10, 0, 10,0">
                 <TextBox Text="{Binding ElementName=PlateWidth1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateWidth1" Maximum="20" Minimum="5" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateWidth1" ValueChanged="PlateWidth1_ValueChanged" Maximum="5" Minimum="0.05" TickPlacement="BottomRight" TickFrequency="0.05" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Детализация по ширине:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
                 <TextBox Text="{Binding ElementName=PlateWidthPointsCount1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateWidthPointsCount1"  Maximum="100" Minimum="2" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateWidthPointsCount1" ValueChanged="PlateWidthPointsCount1_ValueChanged" Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
             
             <Label FontWeight="Bold" FontSize="10">Длина пластины:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10, 0, 10,0">
                 <TextBox Text="{Binding ElementName=PlateHeight1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateHeight1" Maximum="20" Minimum="5" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateHeight1" ValueChanged="PlateHeight1_ValueChanged" Maximum="5" Minimum="0.05" TickPlacement="BottomRight" TickFrequency="0.05" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Детализация по длине:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
                 <TextBox Text="{Binding ElementName=PlateHeightPointsCount1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateHeightPointsCount1"  Maximum="100" Minimum="2" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateHeightPointsCount1" ValueChanged="PlateHeightPointsCount1_ValueChanged" Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
 
             <Label FontWeight="Bold" FontSize="10">Детализация по времени:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
                 <TextBox Text="{Binding ElementName=PlateTimeStep1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateTimeStep1"  Maximum="1000" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateTimeStep1" ValueChanged="PlateTimeStep1_ValueChanged" Maximum="60" Minimum="0.1" TickPlacement="BottomRight" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Функция нагрева:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
@@ -233,6 +235,7 @@
                     Padding="3"
                     Grid.Column="1" Grid.Row="0"
                     ToolTip="Функция нагрева"
+                    TextChanged="PlateFunctionF1_TextChanged"
                 />
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Начальное состояние пластины:</Label>
@@ -243,6 +246,7 @@
                     Padding="3"
                     Grid.Column="1" Grid.Row="1"
                     ToolTip="Состояние пластины в нулевой момент времени"
+                    TextChanged="PlateFunctionPhi1_TextChanged"
                 />
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Состояние пластины на краях:</Label>
@@ -252,6 +256,7 @@
                     VerticalAlignment="Center"
                     Padding="3"
                     ToolTip="Состояние пластины на краях"
+                    TextChanged="PlateFunctionMu1_TextChanged"
                 />
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Аналитическое решение:</Label>
@@ -261,19 +266,25 @@
                     VerticalAlignment="Center"
                     Padding="3"
                     ToolTip="Аналитическое решение"
+                    TextChanged="PlateFunctionU1_TextChanged"
                 />
             </DockPanel>
 
             <Label FontWeight="Bold" FontSize="10">Нижняя граница тепловизора:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
                 <TextBox Text="{Binding ElementName=BottomBorderTemp1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="BottomBorderTemp1"  Maximum="100" Minimum="-100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Slider Name="BottomBorderTemp1" ValueChanged="BottomBorderTemp1_ValueChanged" Maximum="10" Minimum="-10" TickPlacement="BottomRight" TickFrequency="0.5" IsSnapToTickEnabled="True"/>
             </DockPanel>
 
             <Label FontWeight="Bold" FontSize="10">Верхняя граница тепловизора:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
                 <TextBox Text="{Binding ElementName=TopBorderTemp1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="TopBorderTemp1"  Maximum="100" Minimum="-100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Slider Name="TopBorderTemp1" ValueChanged="TopBorderTemp1_ValueChanged" Maximum="10" Minimum="-10" TickPlacement="BottomRight" TickFrequency="0.5" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+
+            <DockPanel VerticalAlignment="Center" Margin="10,10,10,0">
+                <Button Click="PlateReset1_Click" Width="60" Name="PlateReset1" Content="Сброс" Height="40" Margin="0,0,10,0" />
+                <Button Click="PlateResetTime1_Click"  Name="PlateResetTime1" Content="Сброс времени" Height="40" Margin="0,0,0,0" />
             </DockPanel>
         </StackPanel>
         
@@ -281,28 +292,28 @@
             <Label FontWeight="Bold" FontSize="10">Ширина пластины:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10, 0, 10,0">
                 <TextBox Text="{Binding ElementName=PlateWidth2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateWidth2" Maximum="20" Minimum="5" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateWidth2" ValueChanged="PlateWidth2_ValueChanged" Maximum="5" Minimum="0.05" TickPlacement="BottomRight" TickFrequency="0.05" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Детализация по ширине:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
                 <TextBox Text="{Binding ElementName=PlateWidthPointsCount2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateWidthPointsCount2"  Maximum="100" Minimum="2" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateWidthPointsCount2" ValueChanged="PlateWidthPointsCount2_ValueChanged"  Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
             
             <Label FontWeight="Bold" FontSize="10">Длина пластины:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10, 0, 10,0">
                 <TextBox Text="{Binding ElementName=PlateHeight2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateHeight2" Maximum="20" Minimum="5" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateHeight2" ValueChanged="PlateHeight2_ValueChanged" Maximum="5" Minimum="0.05" TickPlacement="BottomRight" TickFrequency="0.05" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Детализация по длине:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0" >
                 <TextBox Text="{Binding ElementName=PlateHeightPointsCount2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateHeightPointsCount2"  Maximum="100" Minimum="2" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateHeightPointsCount2" ValueChanged="PlateHeightPointsCount2_ValueChanged" Maximum="100" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Детализация по времени:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
                 <TextBox Text="{Binding ElementName=PlateTimeStep2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="PlateTimeStep2"  Maximum="1000" Minimum="10" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                <Slider Name="PlateTimeStep2" ValueChanged="PlateTimeStep2_ValueChanged" Maximum="60" Minimum="0.1" TickPlacement="BottomRight" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
             </DockPanel>
 
             <Label FontWeight="Bold" FontSize="10">Функция нагрева:</Label>
@@ -313,6 +324,7 @@
                     Padding="3"
                     Grid.Column="1" Grid.Row="0"
                     ToolTip="Функция нагрева"
+                    TextChanged="PlateFunctionF2_TextChanged"
                 />
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Начальное состояние пластины:</Label>
@@ -323,6 +335,7 @@
                     Padding="3"
                     Grid.Column="1" Grid.Row="1"
                     ToolTip="Состояние пластины в нулевой момент времени"
+                    TextChanged="PlateFunctionPhi2_TextChanged"
                 />
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Состояние пластины на краях:</Label>
@@ -332,6 +345,7 @@
                     VerticalAlignment="Center"
                     Padding="3"
                     ToolTip="Состояние пластины на краях"
+                    TextChanged="PlateFunctionMu2_TextChanged"
                 />
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Аналитическое решение:</Label>
@@ -341,21 +355,27 @@
                     VerticalAlignment="Center"
                     Padding="3"
                     ToolTip="Аналитическое решение"
+                    TextChanged="PlateFunctionU2_TextChanged"
                 />
             </DockPanel>
             
             <Label FontWeight="Bold" FontSize="10">Нижняя граница тепловизора:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
                 <TextBox Text="{Binding ElementName=BottomBorderTemp2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="BottomBorderTemp2"  Maximum="100" Minimum="-100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Slider Name="BottomBorderTemp2" ValueChanged="BottomBorderTemp2_ValueChanged" Maximum="10" Minimum="-10" TickPlacement="BottomRight" TickFrequency="0.5" IsSnapToTickEnabled="True"/>
             </DockPanel>
 
             <Label FontWeight="Bold" FontSize="10">Верхняя граница тепловизора:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
                 <TextBox Text="{Binding ElementName=TopBorderTemp2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
-                <Slider Name="TopBorderTemp2"  Maximum="100" Minimum="-100" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Slider Name="TopBorderTemp2" ValueChanged="TopBorderTemp2_ValueChanged" Maximum="10" Minimum="-10" TickPlacement="BottomRight" TickFrequency="0.5" IsSnapToTickEnabled="True"/>
             </DockPanel>
-
+            
+            
+            <DockPanel VerticalAlignment="Center" Margin="10,10,10,0">
+                <Button Click="PlateResetTime2_Click"  Name="PlateResetTime2" Content="Сброс времени" Width="100" Height="40" Margin="0,0,10,0" />
+                <Button DockPanel.Dock="Right" Click="PlateReset2_Click"  Name="PlateReset2" Content="Сброс" Height="40" Margin="0,0,0,0" />
+            </DockPanel>
         </StackPanel>
 
     </Grid>

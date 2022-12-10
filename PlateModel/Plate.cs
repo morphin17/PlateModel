@@ -184,7 +184,7 @@ namespace PlateModel
                 for (int i = 1; i < U.GetLength(0) - 1; i++)
                 {
                     alpha[i + 1] = gamma1 / (1 + 2 * gamma1 - alpha[i] * gamma1);
-                    beta[i + 1] = (N[i, j] + tau * FF[i,j] + gamma1 * beta[i]) / (1 + 2 * gamma1 - alpha[i] * gamma1);
+                    beta[i + 1] = (N[i, j] + tau / 2 * FF[i,j] + gamma1 * beta[i]) / (1 + 2 * gamma1 - alpha[i] * gamma1);
                 }
 
                 for (int i = U.GetLength(0) - 2; i > 0; i--)
@@ -206,7 +206,7 @@ namespace PlateModel
                 for (int j = 1; j < U.GetLength(1) - 1; j++)
                 {
                     alpha[j + 1] = gamma2 / (1 + 2 * gamma2 - alpha[j] * gamma2);
-                    beta[j + 1] = (N[i, j] + tau * FF[i, j] + gamma2 * beta[j]) / (1 + 2 * gamma2 - alpha[j] * gamma2);
+                    beta[j + 1] = (N[i, j] + tau / 2 * FF[i, j] + gamma2 * beta[j]) / (1 + 2 * gamma2 - alpha[j] * gamma2);
                 }
 
                 for (int j = U.GetLength(1) - 2; j > 0; j--)
