@@ -659,7 +659,16 @@ namespace PlateModel
             }
             catch
             {
-                System.Windows.MessageBox.Show("Ошибка. Проверьте начальные условия");
+                System.Windows.MessageBox.Show("Ошибка. Проверьте начальные условия на корректный ввод формул.");
+                animateFlag = false;
+                if (animateFlag)
+                {
+                    Play.Content = "⏸";
+                }
+                else
+                {
+                    Play.Content = "▶";
+                }
                 return;
             }
 
@@ -667,8 +676,8 @@ namespace PlateModel
             init_HeatMap2();
 
 
-            CurrentModelTime1.Text = "Текущее время:\n" + Convert.ToString(p1.curT) + " с.";
-            CurrentModelTime2.Text = "Текущее время:\n" + Convert.ToString(p2.curT) + " с.";
+            CurrentModelTime1.Text = "Текущее время:\n" + Convert.ToString(Math.Round(p1.curT, 2)) + " с.";
+            CurrentModelTime2.Text = "Текущее время:\n" + Convert.ToString(Math.Round(p2.curT, 2)) + " с.";
         }
 
         private void next_Click(object sender, RoutedEventArgs e)
@@ -1221,6 +1230,11 @@ namespace PlateModel
         private void HelpMenuItem_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.Help.ShowHelp(null, @".\PlateModel.chm");
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown(); 
         }
     }
 }
