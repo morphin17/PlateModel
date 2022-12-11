@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Windows.Forms;
 
 namespace PlateModel
 {
@@ -67,9 +68,20 @@ namespace PlateModel
         bool blockBottomBorderTemp2 = true;
         bool blockTopBorderTemp2 = true;
 
+        Dictionary<string, string> functionsByName = new Dictionary<string, string>()
+        {
+            { "Без нагрева", "0" },
+            { "По центру", "Sin(pi * x / a) * Sin(pi * y / b)" },
+            {"Левый верхний угол", "Sin((x+a)*pi/(2*a))*Sin((y+b)*pi/(2*b))"},
+            {"Правый верхний угол", "Sin((x+a)*pi/(2*a))*Sin((y)*pi/(2*b))"},
+            {"Левый нижний угол", "Sin(x*pi/(2*a))*Sin((y+b)*pi/(2*b))"},
+            {"Правый нижний угол", "Sin(x*pi/(2*a))*Sin(y*pi/(2*b))"},
+        };
+
         public MainWindow()
         {
             InitializeComponent();
+
 
             timer = new DispatcherTimer();
 
@@ -96,6 +108,7 @@ namespace PlateModel
             init_HeatMap2();
 
             UnblockPlateOptiopns2();
+
         }
 
         private void BlockPlateOptiopns1()
@@ -170,26 +183,26 @@ namespace PlateModel
             init_PlateOptions1();
             init_PlateOptions2();
 
-            PlateFunctionF1.Text = "0";
-            PlateFunctionPhi1.Text = "Sin(pi*x/0.05)*Sin(pi*y/0.05)";
+            PlateFunctionF1.Text = "Без нагрева";
+            PlateFunctionPhi1.Text = "Без нагрева";
             PlateFunctionMu1.Text = "0";
             PlateWidth1.Value = 0.05;
-            PlateWidthPointsCount1.Value = 30;
+            PlateWidthPointsCount1.Value = 100;
             PlateHeight1.Value = 0.05;
-            PlateHeightPointsCount1.Value = 30;
+            PlateHeightPointsCount1.Value = 100;
             PlateTimeStep1.Value = 0.1;
             PlateFunctionU1.Text = "Sin(pi*x/0.05)*Sin(pi*y/0.05)*Pow(e, -0.000127*(pi*pi/(0.05*0.05) + pi*pi/(0.05*0.05))*t)";
             PlateSubstance1.SelectedIndex = 0;
             BottomBorderTemp1.Value = 0;
             TopBorderTemp1.Value = 1;
 
-            PlateFunctionF2.Text = "0";
-            PlateFunctionPhi2.Text = "Sin(pi*x/0.05)*Sin(pi*y/0.05)";
+            PlateFunctionF2.Text = "Без нагрева";
+            PlateFunctionPhi2.Text = "По центру";
             PlateFunctionMu2.Text = "0";
             PlateWidth2.Value = 0.05;
-            PlateWidthPointsCount2.Value = 30;
+            PlateWidthPointsCount2.Value = 100;
             PlateHeight2.Value = 0.05;
-            PlateHeightPointsCount2.Value = 30;
+            PlateHeightPointsCount2.Value = 100;
             PlateTimeStep2.Value = 0.1;
             PlateSubstance2.SelectedIndex = 0;
             BottomBorderTemp2.Value = 0;
@@ -214,28 +227,28 @@ namespace PlateModel
             init_PlateOptions1();
             init_PlateOptions2();
 
-            PlateFunctionF1.Text = "0";
-            PlateFunctionPhi1.Text = "Sin(pi*x/5)*Sin(pi*y/5)";
+            PlateFunctionF1.Text = "Без нагрева";
+            PlateFunctionPhi1.Text = "По центру";
             PlateFunctionMu1.Text = "0";
-            PlateWidth1.Value = 5;
-            PlateWidthPointsCount1.Value = 30;
-            PlateHeight1.Value = 5;
-            PlateHeightPointsCount1.Value = 30;
-            PlateTimeStep1.Value = 60;
-            PlateFunctionU1.Text = "Sin(pi*x/5)*Sin(pi*y/5)*Pow(e, -0.000127*(pi*pi/(5*5) + pi*pi/(5*5))*t)";
+            PlateWidth1.Value = 0.5;
+            PlateWidthPointsCount1.Value = 100;
+            PlateHeight1.Value = 0.5;
+            PlateHeightPointsCount1.Value = 100;
+            PlateTimeStep1.Value = 10;
+            PlateFunctionU1.Text = "";
             PlateSubstance1.SelectedIndex = 0;
             BottomBorderTemp1.Value = 0;
             TopBorderTemp1.Value = 1;
 
-            PlateFunctionF2.Text = "0";
-            PlateFunctionPhi2.Text = "Sin(pi*x/5)*Sin(pi*y/5)";
+            PlateFunctionF2.Text = "Без нагрева";
+            PlateFunctionPhi2.Text = "По центру";
             PlateFunctionMu2.Text = "0";
-            PlateWidth2.Value = 5;
-            PlateWidthPointsCount2.Value = 30;
-            PlateHeight2.Value = 5;
-            PlateHeightPointsCount2.Value = 30;
-            PlateTimeStep2.Value = 60;
-            PlateSubstance2.SelectedIndex = 0;
+            PlateWidth2.Value = 0.5;
+            PlateWidthPointsCount2.Value = 100;
+            PlateHeight2.Value = 0.5;
+            PlateHeightPointsCount2.Value = 100;
+            PlateTimeStep2.Value = 10;
+            PlateSubstance2.SelectedIndex = 3;
             BottomBorderTemp2.Value = 0;
             TopBorderTemp2.Value = 1;
 
@@ -258,26 +271,70 @@ namespace PlateModel
             init_PlateOptions1();
             init_PlateOptions2();
 
-            PlateFunctionF1.Text = "Sin(pi*x/0.05)*Sin(pi*y/0.05)";
-            PlateFunctionPhi1.Text = "0";
+            PlateFunctionF1.Text = "По центру";
+            PlateFunctionPhi1.Text = "Без нагрева";
             PlateFunctionMu1.Text = "0";
             PlateWidth1.Value = 0.05;
-            PlateWidthPointsCount1.Value = 30;
+            PlateWidthPointsCount1.Value = 100;
             PlateHeight1.Value = 0.05;
-            PlateHeightPointsCount1.Value = 30;
+            PlateHeightPointsCount1.Value = 100;
             PlateTimeStep1.Value = 0.1;
-            PlateFunctionU1.Text = "(Pow(e, 0.000088*(pi*pi/(0.05*0.05) + pi*pi/(0.05*0.05))*t) - 1)/(0.000088*(pi*pi/(0.05*0.05) + pi*pi/(0.05*0.05)))*Sin(pi*x/0.05)*Sin(pi*y/0.05)*Pow(e, -0.000088*(pi*pi/(0.05*0.05) + pi*pi/(0.05*0.05))*t)";
-            PlateSubstance1.SelectedIndex = 3;
+            PlateFunctionU1.Text = "";
+            PlateSubstance1.SelectedIndex = 0;
             BottomBorderTemp1.Value = 0;
             TopBorderTemp1.Value = 1;
 
-            PlateFunctionF2.Text = "Sin(pi*x/0.05)*Sin(pi*y/0.05)";
-            PlateFunctionPhi2.Text = "0";
+            PlateFunctionF2.Text = "По центру";
+            PlateFunctionPhi2.Text = "Без нагрева";
             PlateFunctionMu2.Text = "0";
             PlateWidth2.Value = 0.05;
-            PlateWidthPointsCount2.Value = 30;
+            PlateWidthPointsCount2.Value = 100;
             PlateHeight2.Value = 0.05;
-            PlateHeightPointsCount2.Value = 30;
+            PlateHeightPointsCount2.Value = 100;
+            PlateTimeStep2.Value = 0.1;
+            PlateSubstance2.SelectedIndex = 3;
+            BottomBorderTemp2.Value = 0;
+            TopBorderTemp2.Value = 1;
+
+            init_Expr1();
+            init_Expr2();
+
+            init_Plate1();
+            init_HeatMap1();
+            init_Plate2();
+            init_HeatMap2();
+
+            UnblockPlateOptiopns1();
+            UnblockPlateOptiopns2();
+        }
+        private void MenuItem_Test4(object sender, RoutedEventArgs e)
+        {
+            BlockPlateOptiopns1();
+            BlockPlateOptiopns2();
+
+            init_PlateOptions1();
+            init_PlateOptions2();
+
+            PlateFunctionF1.Text = "Левый нижний угол";
+            PlateFunctionPhi1.Text = "Правый верхний угол";
+            PlateFunctionMu1.Text = "0";
+            PlateWidth1.Value = 0.5;
+            PlateWidthPointsCount1.Value = 100;
+            PlateHeight1.Value = 0.5;
+            PlateHeightPointsCount1.Value = 100;
+            PlateTimeStep1.Value = 0.1;
+            PlateFunctionU1.Text = "";
+            PlateSubstance1.SelectedIndex = 0;
+            BottomBorderTemp1.Value = 0;
+            TopBorderTemp1.Value = 1;
+
+            PlateFunctionF2.Text = "Левый нижний угол";
+            PlateFunctionPhi2.Text = "Правый верхний угол";
+            PlateFunctionMu2.Text = "0";
+            PlateWidth2.Value = 0.5;
+            PlateWidthPointsCount2.Value = 100;
+            PlateHeight2.Value = 0.5;
+            PlateHeightPointsCount2.Value = 100;
             PlateTimeStep2.Value = 0.1;
             PlateSubstance2.SelectedIndex = 3;
             BottomBorderTemp2.Value = 0;
@@ -295,15 +352,16 @@ namespace PlateModel
             UnblockPlateOptiopns2();
         }
 
+
         private void init_PlateOptions1()
         {
             PlateWidth1.Value = 10;
-            PlateWidthPointsCount1.Value = 20;
+            PlateWidthPointsCount1.Value = 100;
             PlateHeight1.Value = 10;
-            PlateHeightPointsCount1.Value = 20;
-            PlateTimeStep1.Value = 10;
-            PlateFunctionF1.Text = "0";
-            PlateFunctionPhi1.Text = "0";
+            PlateHeightPointsCount1.Value = 100;
+            PlateTimeStep1.Value = 1;
+            PlateFunctionF1.Text = "Без нагрева";
+            PlateFunctionPhi1.Text = "Без нагрева";
             PlateFunctionMu1.Text = "0";
             PlateFunctionU1.Text = "";
             PlateSubstance1.SelectedIndex = 0;
@@ -313,12 +371,12 @@ namespace PlateModel
         private void init_PlateOptions2()
         {
             PlateWidth2.Value = 10;
-            PlateWidthPointsCount2.Value = 20;
+            PlateWidthPointsCount2.Value = 100;
             PlateHeight2.Value = 10;
-            PlateHeightPointsCount2.Value = 20;
-            PlateTimeStep2.Value = 10;
-            PlateFunctionF2.Text = "0";
-            PlateFunctionPhi2.Text = "0";
+            PlateHeightPointsCount2.Value = 100;
+            PlateTimeStep2.Value = 1;
+            PlateFunctionF2.Text = "Без нагрева";
+            PlateFunctionPhi2.Text = "Без нагрева";
             PlateFunctionMu2.Text = "0";
             PlateFunctionU2.Text = "";
             PlateSubstance2.SelectedIndex = 0;
@@ -329,8 +387,20 @@ namespace PlateModel
 
         private void init_Expr1()
         {
-            exprF1 = new NCalc.Expression(PlateFunctionF1.Text);
-            exprPhi1 = new NCalc.Expression(PlateFunctionPhi1.Text);
+            var phitext = PlateFunctionPhi1.Text;
+            if (functionsByName.ContainsKey(phitext))
+            {
+                phitext = functionsByName[phitext];
+            }
+
+            var ftext = PlateFunctionF1.Text;
+            if (functionsByName.ContainsKey(ftext))
+            {
+                ftext = functionsByName[ftext];
+            }
+
+            exprF1 = new NCalc.Expression(ftext);
+            exprPhi1 = new NCalc.Expression(phitext);
             exprMu1 = new NCalc.Expression(PlateFunctionMu1.Text);
             if (PlateFunctionU1.Text != "")
             {
@@ -339,8 +409,20 @@ namespace PlateModel
         }
         private void init_Expr2()
         {
-            exprF2 = new NCalc.Expression(PlateFunctionF2.Text);
-            exprPhi2 = new NCalc.Expression(PlateFunctionPhi2.Text);
+            var phitext = PlateFunctionPhi2.Text;
+            if (functionsByName.ContainsKey(phitext))
+            {
+                phitext = functionsByName[phitext];
+            }
+
+            var ftext = PlateFunctionF2.Text;
+            if (functionsByName.ContainsKey(ftext))
+            {
+                ftext = functionsByName[ftext];
+            }
+
+            exprF2 = new NCalc.Expression(ftext);
+            exprPhi2 = new NCalc.Expression(phitext);
             exprMu2 = new NCalc.Expression(PlateFunctionMu2.Text);
             if (PlateFunctionU2.Text != "")
             {
@@ -524,7 +606,7 @@ namespace PlateModel
                 }
                 catch
                 {
-                    MessageBox.Show("Ошибка. Проверьте корректны ли введены начальные условия.");
+                    System.Windows.MessageBox.Show("Ошибка. Проверьте корректны ли введены начальные условия.");
                     animateFlag = false;
                     if (animateFlag)
                     {
@@ -577,7 +659,7 @@ namespace PlateModel
             }
             catch
             {
-                MessageBox.Show("Ошибка. Проверьте начальные условия");
+                System.Windows.MessageBox.Show("Ошибка. Проверьте начальные условия");
                 return;
             }
 
@@ -595,45 +677,53 @@ namespace PlateModel
         }
 
 
-        private double f1(double x, double y, double t)
+        private double f1(double a, double b, double x, double y, double t)
         {
             exprF1.Parameters["pi"] = Math.PI;
             exprF1.Parameters["e"] = Math.E;
             exprF1.Parameters["x"] = x;
             exprF1.Parameters["y"] = y;
             exprF1.Parameters["t"] = t;
+            exprF1.Parameters["a"] = a;
+            exprF1.Parameters["b"] = b;
 
             double r = Convert.ToDouble(exprF1.Evaluate());
             return r;
         }
-        private double f2(double x, double y, double t)
+        private double f2(double a, double b, double x, double y, double t)
         {
             exprF2.Parameters["pi"] = Math.PI;
             exprF2.Parameters["e"] = Math.E;
             exprF2.Parameters["x"] = x;
             exprF2.Parameters["y"] = y;
             exprF2.Parameters["t"] = t;
+            exprF2.Parameters["a"] = a;
+            exprF2.Parameters["b"] = b;
 
             double r = Convert.ToDouble(exprF2.Evaluate());
             return r;
         }
 
-        private double phi1(double x, double y)
+        private double phi1(double a, double b, double x, double y)
         {
             exprPhi1.Parameters["pi"] = Math.PI;
             exprPhi1.Parameters["e"] = Math.E;
             exprPhi1.Parameters["x"] = x;
             exprPhi1.Parameters["y"] = y;
+            exprPhi1.Parameters["a"] = a;
+            exprPhi1.Parameters["b"] = b;
 
             double r = Convert.ToDouble(exprPhi1.Evaluate());
             return r;
         }
-        private double phi2(double x, double y)
+        private double phi2(double a, double b, double x, double y)
         {
             exprPhi2.Parameters["pi"] = Math.PI;
             exprPhi2.Parameters["e"] = Math.E;
             exprPhi2.Parameters["x"] = x;
             exprPhi2.Parameters["y"] = y;
+            exprPhi2.Parameters["a"] = a;
+            exprPhi2.Parameters["b"] = b;
 
             double r = Convert.ToDouble(exprPhi2.Evaluate());
             return r;
@@ -870,6 +960,12 @@ namespace PlateModel
 
         private void PlateFunctionF1_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var ftext = PlateFunctionF1.Text;
+            if (functionsByName.ContainsKey(ftext))
+            {
+                ftext = functionsByName[ftext];
+            }
+
             if (blockPlateFunctionF1)
             {
                 return;
@@ -877,17 +973,24 @@ namespace PlateModel
             
             try
             {
-                exprF1 = new NCalc.Expression(PlateFunctionF1.Text);
+                exprF1 = new NCalc.Expression(ftext);
                 init_Plate1();
                 init_HeatMap1();
             }catch
             {
+                Console.WriteLine(PlateFunctionF1.Text);
                 return;
             }
         }
 
         private void PlateFunctionF2_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var ftext = PlateFunctionF2.Text;
+            if (functionsByName.ContainsKey(ftext))
+            {
+                ftext = functionsByName[ftext];
+            }
+
             if (blockPlateFunctionF2)
             {
                 return;
@@ -895,7 +998,7 @@ namespace PlateModel
             
             try
             {
-                exprF2 = new NCalc.Expression(PlateFunctionF2.Text);
+                exprF2 = new NCalc.Expression(ftext);
                 init_Plate2();
                 init_HeatMap2();
             }catch
@@ -906,6 +1009,12 @@ namespace PlateModel
 
         private void PlateFunctionPhi1_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var phitext = PlateFunctionPhi1.Text;
+            if (functionsByName.ContainsKey(phitext))
+            {
+                phitext = functionsByName[phitext];
+            }
+
             if (blockPlateFunctionPhi1)
             {
                 return;
@@ -913,11 +1022,13 @@ namespace PlateModel
             
             try
             {
-                exprPhi1 = new NCalc.Expression(PlateFunctionPhi1.Text);
+                exprPhi1 = new NCalc.Expression(phitext);
                 init_Plate1();
                 init_HeatMap1();
             }catch
             {
+                Console.WriteLine("Ошибка");
+                Console.WriteLine(PlateFunctionPhi1.Text);
                 return;
             }
 
@@ -946,6 +1057,27 @@ namespace PlateModel
 
         private void PlateFunctionU1_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var u1text = PlateFunctionU1.Text;
+            if (u1text.Length > 0)
+            {
+                PlateFunctionF1.IsEnabled = false;
+                PlateFunctionPhi1.IsEnabled = false;
+                PlateFunctionMu1.IsEnabled = false;
+                PlateFunctionMuSlider1.IsEnabled = false;
+                PlateSubstance1.IsEnabled = false;
+            }
+            else
+            {
+                PlateFunctionF1.IsEnabled = true;
+                PlateFunctionPhi1.IsEnabled = true;
+                PlateFunctionMu1.IsEnabled = true;
+                PlateFunctionMuSlider1.IsEnabled = true;
+                PlateSubstance1.IsEnabled = true;
+
+                init_Plate1();
+                init_HeatMap1();
+            }
+
             if (blockPlateFunctionU1)
             {
                 return;
@@ -953,7 +1085,7 @@ namespace PlateModel
 
             try
             {
-                exprU1 = new NCalc.Expression(PlateFunctionU1.Text);
+                exprU1 = new NCalc.Expression(u1text);
                 init_Plate1();
                 init_HeatMap1();
             }
@@ -966,6 +1098,12 @@ namespace PlateModel
 
         private void PlateFunctionPhi2_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var phitext = PlateFunctionPhi2.Text;
+            if (functionsByName.ContainsKey(phitext))
+            {
+                phitext = functionsByName[phitext];
+            }
+
             if (blockPlateFunctionPhi2)
             {
                 return;
@@ -973,7 +1111,7 @@ namespace PlateModel
 
             try
             {
-                exprPhi2 = new NCalc.Expression(PlateFunctionPhi2.Text);
+                exprPhi2 = new NCalc.Expression(phitext);
                 init_Plate2();
                 init_HeatMap2();
             }
@@ -1006,7 +1144,27 @@ namespace PlateModel
         }
 
         private void PlateFunctionU2_TextChanged(object sender, TextChangedEventArgs e)
-        {
+        { 
+            var utext = PlateFunctionU2.Text;
+            if (utext.Length > 0)
+            {
+                PlateFunctionF2.IsEnabled = false;
+                PlateFunctionPhi2.IsEnabled = false;
+                PlateFunctionMu2.IsEnabled = false;
+                PlateFunctionMuSlider2.IsEnabled = false;
+                PlateSubstance2.IsEnabled = false;
+            }
+            else
+            {
+                PlateFunctionF2.IsEnabled = true;
+                PlateFunctionPhi2.IsEnabled = true;
+                PlateFunctionMu2.IsEnabled = true;
+                PlateFunctionMuSlider2.IsEnabled = true;
+                PlateSubstance2.IsEnabled = false;
+                init_Plate2();
+                init_HeatMap2();
+            }
+
             if (blockPlateFunctionU2)
             {
                 return;
@@ -1014,7 +1172,7 @@ namespace PlateModel
 
             try
             {
-                exprU2 = new NCalc.Expression(PlateFunctionU2.Text);
+                exprU2 = new NCalc.Expression(utext);
                 init_Plate2();
                 init_HeatMap2();
             }
@@ -1058,6 +1216,11 @@ namespace PlateModel
 
             init_Plate2();
             init_HeatMap2();
+        }
+
+        private void HelpMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.Help.ShowHelp(null, @".\PlateModel.chm");
         }
     }
 }

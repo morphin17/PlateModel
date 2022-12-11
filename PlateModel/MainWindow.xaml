@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlateModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="1210" MinHeight="650" MaxHeight="650" MinWidth="1210" MaxWidth="1210">
+        Title="PlateModel" Height="650" Width="1210" MinHeight="650" MaxHeight="650" MinWidth="1210" MaxWidth="1210">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"></RowDefinition>
@@ -29,9 +29,13 @@
                 <MenuItem Header="Выход"></MenuItem>
             </MenuItem>
             <MenuItem Header="Сценарии">
-                <MenuItem Header="Сценарий №1. Остывание золотой пластины 25 см^2." Click="MenuItem_Test1"/>
-                <MenuItem Header="Сценарий №2. Остывание золотой пластины 25 м^2." Click="MenuItem_Test2"/>
-                <MenuItem Header="Сценарий №3. Нагревание кремниевой пластины." Click="MenuItem_Test3"/>
+                <MenuItem Header="Сценарий №1. Остывание золотой пластины при условии начально условии нагрева по середине сравнение с аналитичкеским решением" Click="MenuItem_Test1"/>
+                <MenuItem Header="Сценарий №2. Остывание золотой и кремниевой пластины при условии начально условии нагрева по середине" Click="MenuItem_Test2"/>
+                <MenuItem Header="Сценарий №3. Нагрев золотой и кремниевой пластины при условии нагрева по середине" Click="MenuItem_Test3"/>
+                <MenuItem Header="Сценарий №4. Нагрев золотой и кремниевой пластины при начальном условии нагрева правого верхнего угла и левый нижний угол в течение времени" Click="MenuItem_Test4"/>
+            </MenuItem>
+            <MenuItem Header="Помощь">
+                <MenuItem Name="helpMenuItem" Header="Справка" Click="HelpMenuItem_Click"/>
             </MenuItem>
         </Menu>
 
@@ -227,37 +231,65 @@
                 <TextBox Text="{Binding ElementName=PlateTimeStep1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
                 <Slider Name="PlateTimeStep1" ValueChanged="PlateTimeStep1_ValueChanged" Maximum="60" Minimum="0.1" TickPlacement="BottomRight" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
             </DockPanel>
-            <Label FontWeight="Bold" FontSize="10">Функция нагрева:</Label>
+            <Label FontWeight="Bold" FontSize="10">Нагрев течениe времени:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
-                <TextBox
+                <TextBox 
+                    Width="0" 
+                    Visibility="Hidden" 
+                    Name="PlateFunctionTextF1" Text="{Binding ElementName=PlateFunctionF1,Path=Text}" 
+                    TextChanged="PlateFunctionF1_TextChanged"/>
+                <ComboBox 
                     Name="PlateFunctionF1"
                     VerticalAlignment="Center"
                     Padding="3"
                     Grid.Column="1" Grid.Row="0"
                     ToolTip="Функция нагрева"
-                    TextChanged="PlateFunctionF1_TextChanged"
-                />
+                    SelectedIndex="0"
+                    IsEditable="True"
+                    >
+                    <TextBlock>Без нагрева</TextBlock>
+                    <TextBlock>По центру</TextBlock>
+                    <TextBlock>Левый верхний угол</TextBlock>
+                    <TextBlock>Правый верхний угол</TextBlock>
+                    <TextBlock>Левый нижний угол</TextBlock>
+                    <TextBlock>Правый нижний угол</TextBlock>
+                </ComboBox>
             </DockPanel>
-            <Label FontWeight="Bold" FontSize="10">Начальное состояние пластины:</Label>
+            <Label FontWeight="Bold" FontSize="10">Нагрев в начальный момент:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
-                <TextBox
+                <TextBox 
+                    Width="0" 
+                    Visibility="Hidden" 
+                    Name="PlateFunctionTextPhi1" Text="{Binding ElementName=PlateFunctionPhi1,Path=Text}" 
+                    TextChanged="PlateFunctionPhi1_TextChanged"/>
+                <ComboBox 
                     Name="PlateFunctionPhi1"
                     VerticalAlignment="Center"
                     Padding="3"
                     Grid.Column="1" Grid.Row="1"
                     ToolTip="Состояние пластины в нулевой момент времени"
-                    TextChanged="PlateFunctionPhi1_TextChanged"
-                />
+                    SelectedIndex="0"
+                    IsEditable="True"
+                    >
+                    <TextBlock>Без нагрева</TextBlock>
+                    <TextBlock>По центру</TextBlock>
+                    <TextBlock>Левый верхний угол</TextBlock>
+                    <TextBlock>Правый верхний угол</TextBlock>
+                    <TextBlock>Левый нижний угол</TextBlock>
+                    <TextBlock>Правый нижний угол</TextBlock>
+                </ComboBox>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Состояние пластины на краях:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
-                <TextBox
-                    Name="PlateFunctionMu1"
-                    VerticalAlignment="Center"
-                    Padding="3"
-                    ToolTip="Состояние пластины на краях"
+                <TextBox 
+                    Name="PlateFunctionMu1" 
+                    Text="{Binding ElementName=PlateFunctionMuSlider1, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" 
                     TextChanged="PlateFunctionMu1_TextChanged"
-                />
+                    />
+                <Slider 
+                    ToolTip="Состояние пластины на краях"
+                    Name="PlateFunctionMuSlider1" 
+                    Maximum="10" Minimum="-10" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Аналитическое решение:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
@@ -315,38 +347,65 @@
                 <TextBox Text="{Binding ElementName=PlateTimeStep2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" />
                 <Slider Name="PlateTimeStep2" ValueChanged="PlateTimeStep2_ValueChanged" Maximum="60" Minimum="0.1" TickPlacement="BottomRight" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
             </DockPanel>
-
-            <Label FontWeight="Bold" FontSize="10">Функция нагрева:</Label>
+            <Label FontWeight="Bold" FontSize="10">Нагрев течение времени:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
-                <TextBox
+                <TextBox 
+                    Width="0" 
+                    Visibility="Hidden" 
+                    Name="PlateFunctionTextF2" Text="{Binding ElementName=PlateFunctionF2,Path=Text}" 
+                    TextChanged="PlateFunctionF2_TextChanged"/>
+                <ComboBox 
                     Name="PlateFunctionF2"
                     VerticalAlignment="Center"
                     Padding="3"
                     Grid.Column="1" Grid.Row="0"
                     ToolTip="Функция нагрева"
-                    TextChanged="PlateFunctionF2_TextChanged"
-                />
+                    SelectedIndex="0"
+                    IsEditable="True"
+                    >
+                    <TextBlock>Без нагрева</TextBlock>
+                    <TextBlock>По центру</TextBlock>
+                    <TextBlock>Левый верхний угол</TextBlock>
+                    <TextBlock>Правый верхний угол</TextBlock>
+                    <TextBlock>Левый нижний угол</TextBlock>
+                    <TextBlock>Правый нижний угол</TextBlock>
+                </ComboBox>
             </DockPanel>
-            <Label FontWeight="Bold" FontSize="10">Начальное состояние пластины:</Label>
+            <Label FontWeight="Bold" FontSize="10">Нагрев в начальный момент:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
-                <TextBox
+                <TextBox 
+                    Width="0" 
+                    Visibility="Hidden" 
+                    Name="PlateFunctionTextPhi2" Text="{Binding ElementName=PlateFunctionPhi2,Path=Text}" 
+                    TextChanged="PlateFunctionPhi2_TextChanged"/>
+                <ComboBox 
                     Name="PlateFunctionPhi2"
                     VerticalAlignment="Center"
                     Padding="3"
                     Grid.Column="1" Grid.Row="1"
                     ToolTip="Состояние пластины в нулевой момент времени"
-                    TextChanged="PlateFunctionPhi2_TextChanged"
-                />
+                    SelectedIndex="0"
+                    IsEditable="True"
+                    >
+                    <TextBlock>Без нагрева</TextBlock>
+                    <TextBlock>По центру</TextBlock>
+                    <TextBlock>Левый верхний угол</TextBlock>
+                    <TextBlock>Правый верхний угол</TextBlock>
+                    <TextBlock>Левый нижний угол</TextBlock>
+                    <TextBlock>Правый нижний угол</TextBlock>
+                </ComboBox>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Состояние пластины на краях:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">
-                <TextBox
-                    Name="PlateFunctionMu2"
-                    VerticalAlignment="Center"
-                    Padding="3"
-                    ToolTip="Состояние пластины на краях"
+                <TextBox 
+                    Name="PlateFunctionMu2" 
+                    Text="{Binding ElementName=PlateFunctionMuSlider2, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Center" Width="40" 
                     TextChanged="PlateFunctionMu2_TextChanged"
-                />
+                    />
+                <Slider 
+                    ToolTip="Состояние пластины на краях"
+                    Name="PlateFunctionMuSlider2" 
+                    Maximum="10" Minimum="-10" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
             </DockPanel>
             <Label FontWeight="Bold" FontSize="10">Аналитическое решение:</Label>
             <DockPanel VerticalAlignment="Center" Margin="10,0,10,0">

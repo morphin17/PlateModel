@@ -27,8 +27,8 @@ namespace PlateModel
 
 
         private Func<double, double> mu;
-        private Func<double, double, double> phi;
-        private Func<double, double, double, double> f;
+        private Func<double, double, double, double, double> phi;
+        private Func<double, double, double, double, double, double> f;
         private Func<double, double, double, double> u;
         /// <summary>
         /// Пластина в текущий момент времени
@@ -51,7 +51,7 @@ namespace PlateModel
         /// <param name="mu">Функция при кравеаом условии на границах пластины</param>
         /// <param name="u">Аналитическое решение</param>
         public Plate(double ro, double a, double b, double h1, double h2, double tau,
-            Func<double, double, double> phi, Func<double, double, double, double> f, Func<double, double> mu, 
+            Func<double, double, double, double, double> phi, Func<double, double, double, double, double, double> f, Func<double, double> mu, 
             Func<double, double, double, double> u
             )
         {
@@ -82,7 +82,7 @@ namespace PlateModel
             {
                 for (int j = 0; j < this.U.GetLength(1); j++)
                 {
-                    this.U[i, j] = phi(h1 * i, h2 * j);
+                    this.U[i, j] = phi(a, b, h1 * i, h2 * j);
                 }
             }
 
@@ -98,7 +98,7 @@ namespace PlateModel
             {
                 for (int j = 0; j < this.U.GetLength(1); j++)
                 {
-                    this.FF[i, j] = f(h1 * i, h2 * j, curT + tau / 2);
+                    this.FF[i, j] = f(a, b, h1 * i, h2 * j, curT + tau / 2);
                 }
             }
         }
